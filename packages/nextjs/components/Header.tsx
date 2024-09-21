@@ -4,8 +4,9 @@ import React, { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
-import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
+import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
+import { Bars3Icon, BugAntIcon, CircleStackIcon, WalletIcon } from "@heroicons/react/24/outline";
+import { FaucetButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 
 type HeaderMenuLink = {
@@ -20,21 +21,23 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/",
   },
   {
-    label: "Ebook Uploader",
-    href: "/ebookuploader",
-  },
-  {
-    label: "Rent Ebook",
-    href: "/rentebook",
-  },
-  {
-    label: "Return Ebook",
-    href: "/returnebook",
-  },
-  {
     label: "Debug Contracts",
     href: "/debug",
     icon: <BugAntIcon className="h-4 w-4" />,
+  },
+
+
+
+  
+  {
+    label: "Smart Wallet",
+    href: "/safe",
+    icon: <WalletIcon className="h-4 w-4" />,
+  },
+  {
+    label: "Data Storage",
+    href: "/fvm",
+    icon: <CircleStackIcon className="h-4 w-4" />,
   },
 ];
 
@@ -114,7 +117,7 @@ export const Header = () => {
         </ul>
       </div>
       <div className="navbar-end flex-grow mr-4">
-        <RainbowKitCustomConnectButton />
+        <DynamicWidget />
         <FaucetButton />
       </div>
     </div>
