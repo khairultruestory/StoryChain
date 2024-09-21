@@ -10,7 +10,7 @@ node_modules
 !.yarn/versions
 
 # eslint
-.eslintcache
+#.eslintcache
 
 # misc
 .DS_Store

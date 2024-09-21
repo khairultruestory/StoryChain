@@ -27,7 +27,7 @@ export const menuLinks: HeaderMenuLink[] = [
   },
   {
     label: "Ebook Uploader",
-    href: "/ebookuploader",
+    href: "/fileuploader",
   },
   {
     label: "Rent Ebook",
