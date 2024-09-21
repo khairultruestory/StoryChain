@@ -1,12 +1,10 @@
-#  🏗 Scaffold-ETH 2 (Hackathon Starter Kit Version)
+StoryChain is an innovative blockchain-powered marketplace that revolutionizes the way authors publish, own, and monetize their literary works while providing readers with a transparent and engaging platform to discover and support their favorite writers. At its core, StoryChain leverages blockchain technology to create a decentralized ecosystem that addresses key challenges in the traditional publishing industry. Each story or book published on the platform is minted as a unique non-fungible token (NFT), establishing clear and indisputable ownership rights for the author. This blockchain-based ownership model ensures that creators retain full control over their intellectual property while providing an immutable record of publication dates and authorship. The platform's user-friendly interface allows authors to easily upload their works, input metadata, and mint their stories as NFTs. To publish, authors pay a gas fee, which not only covers the blockchain transaction costs but also serves as proof of ownership. StoryChain provides clear explanations of these fees and the associated benefits, ensuring authors understand the value of blockchain-based ownership. For readers, StoryChain offers a rich library of diverse content across various genres. The platform's intuitive discovery features, including advanced search functionality and genre-based browsing, make it easy for readers to find new and exciting stories. A seamless reading interface enhances the user experience, allowing readers to immerse themselves in their chosen works. One of StoryChain's standout features is its direct donation mechanism. Readers can support authors they appreciate by making cryptocurrency or traditional currency donations directly through the platform. This system bypasses traditional intermediaries, ensuring that a higher percentage of the contribution reaches the author. The platform provides transparency by displaying donation amounts received by each author, fostering a sense of community and direct support between readers and writers. StoryChain takes a proactive approach to protecting intellectual property rights. The platform incorporates a sophisticated plagiarism prevention system that utilizes blockchain timestamps and content hashing. Each new submission is cross-referenced against existing blockchain records, making it virtually impossible for plagiarized content to be published under a different author's name. Security and transparency are paramount in StoryChain's design. The decentralized nature of blockchain technology ensures high levels of security for both transactions and data storage. All blockchain-related actions, including ownership transfers, donations, and publication records, are easily accessible and verifiable by users, promoting trust and accountability within the community. The platform also features separate dashboards for authors and readers. Authors can track their publications, view real-time analytics on readership and donations, and manage their earnings. Readers can curate their library, manage their donation history, and engage with their favorite authors. To aid user adoption, StoryChain provides comprehensive documentation, including user guides and FAQs that explain blockchain concepts, gas fees, and platform usage in accessible language. This educational aspect helps bridge the gap between traditional publishing and the Web3 ecosystem. Looking to the future, StoryChain plans to introduce additional features such as a native token economy to incentivize participation, expanded blockchain integration for faster and cheaper transactions, and enhanced social features to build a thriving community of writers and readers. By combining the security and transparency of blockchain technology with a user-friendly interface and direct support mechanisms, StoryChain aims to empower authors, delight readers, and usher in a new era of digital literature where creativity is fairly rewarded and intellectual property is securely protected.
 
-![](./banner.png)
+This project was built upon Dynamic Scaffold Hackathon Starter edition.
+It was a great beginning.
 
-<h4 align="center">
-  <a href="https://www.youtube.com/watch?v=dkONR9dJD2g">Video Walkthrough</a>
-</h4>
+Deployed sepolia contract address <a href="https://sepolia.etherscan.io/address/0xda2c5aa97c73e555fe9a7f885be37b4f5587997d">0xda2c5aa97c73e555fe9a7f885be37b4f5587997d</a>
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts as well as add EthGlobal partner technology such as account abstraction, chain abstraction, onboarding, transaction exploring, EVM networks, custom chains and much more!
 
 ## Requirements
 
@@ -60,72 +58,3 @@ yarn start
 Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
 
 
-## Features Overview
-
-⚙️ Built using NextJS, Dynamic, Hardhat, Wagmi, Viem, and Typescript.
-
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🪝 **[Custom hooks](https://docs.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
-- 🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
-- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
-
-![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/b237af0c-5027-4849-a5c1-2e31495cccb1)
-
-- 🤝 **Dynamic onboarding**: Provides an interactive and responsive widget for interacting with your embedded wallet. You can create your embedded wallet using social logins or connecting an existing wallet.
-- 🔥 **Safe Smart Wallet**: Provides the most battle-tested ERC-4337 compatible smart wallet, improving users' UX.
-- 📱 **Permissionless.js (Pimlico) for gasless transactions**: Facilitates transactions without requiring users to pay gas fees. Pimlico is the world's most popular ERC-4337 account abstraction infrastructure platform.
-- ⛓ **Chainlink CCIP for cross-chain transactions**: Enables seamless transfers across different blockchain networks.
-- 🔗 **Blockscout for checking transactions**: Allows users to track and verify their transactions.
-
-### Chains & Networks
-Out of the box with the Dynamic implementation you get:
-
-- Base
-- Arbitrum
-- Polygon
-- Scroll
-- Zircuit
-- Rootstock
-- ZERϴ
-- Morph
-
-You can add many more via [the dashboard](https://app.dynamic.xyz/dashboard/chains-and-networks), or using [custom EVM Networks](https://docs.dynamic.xyz/chains/evmNetwork)!
-
-*This means you can instantly plug in any local chain you have running, like from Arbitrum Orbit, Polygon CDK etc!*
-
-### Safe Smart Wallet and Permissionless.js (Pimlico)
-
-Navigate to the "Smart Wallet" section and click on "Deploy Safe Account".
-This action calls the `createSmartAccountClient` function from Permissionless.js. More details can be found [here](https://docs.pimlico.io/permissionless/how-to/signers/privy#create-the-smartaccountclient).
-The Safe address is calculated deterministically based on your Dynamic embedded wallet address.
-The actual deployment of the Safe wallet occurs when you initiate your first transaction, such as a transfer.
-
-#### Executing a Transfer:
-You can perform a transfer of ERC-20 tokens in a gasless way. The app uses `smartAccountClient.writeContract` from Permissionless.js ([source](https://docs.pimlico.io/permissionless/reference/smart-account-actions/writeContract)). This allows for gasless transfers, sponsored by the Pimlico Paymaster on testnets.
-ERC-20 transfers are supported on any chain supported by Pimlico. Refer to the supported chains documentation [here](https://docs.pimlico.io/infra/bundler/bundler-errors/chain-not-supported#adding-new-chains).
-
-### Chainlink CCIP for Cross-Chain Transactions
-
-A custom Chainlink CCIP cross-chain transfer smart contract has been deployed, allowing for USDC (only!) transfers.
-The contract has ETH on Base Sepolia to cover CCIP fees.
-Contract address: `0x480A24B3F71f8704066211e61CF6CCE430B8a5c7`. You can find it in the `constants.ts` file of the project.
-Check the contract code: you can find the code in `/hardhat/contracts/CCIPTransfer.sol`.
-Check the contract ABI: you can find the contract ABI in `/nextjs/lib/ABI`.
-The reference of the contract is this Chainlink CCIP contract example ([source](https://docs.chain.link/ccip/tutorials/cross-chain-tokens)).
-
-The app uses `smartAccountClient.writeContract` ([source](https://docs.pimlico.io/permissionless/reference/smart-account-actions/writeContract)) of Permissionless.js to ensure gasless cross-chain transactions.
-The implementation is flexible, allowing for easy extension to support additional chains or rewriting the contract.
-If your allowance is lower than the amount to transfer, you are asked to execute an approve too.
-
-### Blockscout for Checking Transactions
-
-In the "Transactions" section, users can view all transactions executed by the Safe smart wallet within the session. The app integrates the [Blockscout API](https://docs.blockscout.com/for-users/api) to fetch and display transaction details, providing a transparent and user-friendly way to track activities.
-
-
-## Further Documentation
-- [Dynamic](https://docs.dynamic.xyz/)
-- [Original Scaffold Eth 2](https://scaffold-eth-2-docs.vercel.app/)
-- [Pimlico](https://docs.pimlico.io/)
-- [Safe](https://docs.safe.global/)
-- [Chainlink](https://docs.chain.link/)
-- [Blockscout](https://docs.blockscout.com/for-users/api/rpc-endpoints)
