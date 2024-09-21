@@ -25,10 +25,18 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/debug",
     icon: <BugAntIcon className="h-4 w-4" />,
   },
-
-
-
-  
+  {
+    label: "Ebook Uploader",
+    href: "/ebookuploader",
+  },
+  {
+    label: "Rent Ebook",
+    href: "/rentebook",
+  },
+  {
+    label: "Return Ebook",
+    href: "/returnebook",
+  },
   {
     label: "Smart Wallet",
     href: "/safe",
