@@ -1,85 +1,95 @@
-//SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0 <0.9.0;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-// Useful for debugging. Remove when deploying to a live network.
-import "hardhat/console.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+contract FileStorage {
+    // Mapping of file names to IPFS hashes
+    mapping (string => string) public storyName;
 
-contract StoryChainContract is ERC721, Ownable {
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+    // Mapping of file names to owners
+    mapping (string => address) public storyOwnerss;
 
-    struct Book {
-        string title;
-        string author;
-        string pdfHash;
-        uint256 rentPrice;
-        uint256 rentDuration;
-        address currentRenter;
-        uint256 rentEndTime;
+    // Mapping of file names to rent status
+    mapping (string => bool) public storyRentStatus;
+
+    // Mapping of file names to renters
+    mapping (string => address) public storyRenters;
+
+    // Event emitted when a file is uploaded
+    event FileUploaded(string fileName, string ipfsHash, address owner);
+
+    // Event emitted when a file's rent status is updated
+    event storyRentStatusUpdated(string fileName, bool rentEnabled);
+
+    // Event emitted when a file is rented
+    event FileRented(string fileName, address renter);
+
+    // Function to upload a file
+    function uploadStory(string memory fileName, string memory ipfsHash) public {
+        // Check if the file already exists
+        require(bytes(storyName[fileName]).length == 0, "File already exists");
+
+        // Set the IPFS hash and owner of the file
+        storyName[fileName] = ipfsHash;
+        storyOwnerss[fileName] = msg.sender;
+
+        // Initialize rent status to disabled
+        storyRentStatus[fileName] = false;
+
+        // Emit the FileUploaded event
+        emit FileUploaded(fileName, ipfsHash, msg.sender);
     }
 
-	struct PdfFile {
-        string fileName;
-        string hash;
-        string storageLocation;
+    // Function to retrieve the IPFS hash of a file
+    function getStoryHash(string memory fileName) public view returns (string memory) {
+        return storyName[fileName];
     }
 
-    mapping(uint256 => Book) public books;
-	mapping (address => PdfFile[]) public pdfFiles;
-
-
-    event BookUploaded(uint256 tokenId, string title, string author, string pdfHash);
-    event BookRented(uint256 tokenId, address renter, uint256 rentEndTime);
-    event BookReturned(uint256 tokenId);
-
-    constructor() ERC721("StoryChainContract", "SCC") {}
-
-    function uploadBook(string memory _title, string memory _author, string memory _pdfHash, uint256 _rentPrice, uint256 _rentDuration) public onlyOwner {
-        _tokenIds.increment();
-        uint256 newTokenId = _tokenIds.current();
-        books[newTokenId] = Book(_title, _author, _pdfHash, _rentPrice, _rentDuration, address(0), 0);
-        _mint(msg.sender, newTokenId);
-        emit BookUploaded(newTokenId, _title, _author, _pdfHash);
+    // Function to verify the ownership of a file
+    function verifyOwnership(string memory fileName, address owner) public view returns (bool) {
+        return storyOwnerss[fileName] == owner;
     }
 
-    function rentBook(uint256 _tokenId) public payable {
-        require(msg.sender != ownerOf(_tokenId), "You cannot rent your own book");
-        require(books[_tokenId].currentRenter == address(0), "Book is already rented");
-        require(msg.value >= books[_tokenId].rentPrice, "Insufficient funds");
-        books[_tokenId].currentRenter = msg.sender;
-        books[_tokenId].rentEndTime = block.timestamp + books[_tokenId].rentDuration;
-        emit BookRented(_tokenId, msg.sender, books[_tokenId].rentEndTime);
+    // Function to enable renting of a file
+    function enableRenting(string memory fileName) public {
+        // Check if the file exists and the caller is the owner
+        require(bytes(storyName[fileName]).length > 0, "File does not exist");
+        require(storyOwnerss[fileName] == msg.sender, "Only the owner can enable renting");
+
+        // Enable renting
+        storyRentStatus[fileName] = true;
+
+        // Emit the storyRentStatusUpdated event
+        emit storyRentStatusUpdated(fileName, true);
     }
 
-    function returnBook(uint256 _tokenId) public {
-        require(msg.sender == books[_tokenId].currentRenter, "You are not the current renter");
-        require(block.timestamp >= books[_tokenId].rentEndTime, "Rent period has not ended");
-        books[_tokenId].currentRenter = address(0);
-        books[_tokenId].rentEndTime = 0;
-        emit BookReturned(_tokenId);
+    // Function to disable renting of a file
+    function disableRenting(string memory fileName) public {
+        // Check if the file exists and the caller is the owner
+        require(bytes(storyName[fileName]).length > 0, "File does not exist");
+        require(storyOwnerss[fileName] == msg.sender, "Only the owner can disable renting");
+
+        // Disable renting
+        storyRentStatus[fileName] = false;
+
+        // Emit the storyRentStatusUpdated event
+        emit storyRentStatusUpdated(fileName, false);
     }
 
-    function getBookInfo(uint256 _tokenId) public view returns (string memory, string memory, string memory, uint256, uint256, address, uint256) {
-        return (
-            books[_tokenId].title,
-            books[_tokenId].author,
-            books[_tokenId].pdfHash,
-            books[_tokenId].rentPrice,
-            books[_tokenId].rentDuration,
-            books[_tokenId].currentRenter,
-            books[_tokenId].rentEndTime
-        );
+    // Function to rent a file
+    function rentStory(string memory fileName) public {
+        // Check if the file exists and renting is enabled
+        require(bytes(storyName[fileName]).length > 0, "File does not exist");
+        require(storyRentStatus[fileName], "Renting is not enabled for this file");
+
+        // Set the renter
+        storyRenters[fileName] = msg.sender;
+
+        // Emit the FileRented event
+        emit FileRented(fileName, msg.sender);
     }
 
-	function storePdfFile(string memory _fileName, string memory _hash, string memory _storageLocation) public {
-        PdfFile memory pdfFile = PdfFile(_fileName, _hash, _storageLocation);
-        pdfFiles[msg.sender].push(pdfFile);
-    }
-
-    function getPdfFiles() public view returns (PdfFile[] memory) {
-        return pdfFiles[msg.sender];
+    // Function to get the renter of a file
+    function getStoryRenter(string memory fileName) public view returns (address) {
+        return storyRenters[fileName];
     }
 }
